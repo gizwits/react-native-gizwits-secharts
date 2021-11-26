@@ -93,6 +93,7 @@ class Echarts extends Component {
     // alert('optionsChange')
     var myChart = echarts.init(document.getElementById('main'));
     myChart.setOption(${toString(data.option)},${data.notMerge.toString()},${data.lazyUpdate.toString()});
+    myChart.dispatchAction({ type: 'hideTip'});
     `
     this.chartRef.current.injectJavaScript(run);
   }
