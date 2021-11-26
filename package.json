@@ -1,7 +1,7 @@
 {
   "name": "react-native-gizwits-secharts",
-  "version": "1.7.1",
-  "description": "reactnative的echarts组件",
+  "version": "1.7.2",
+  "description": "设置数据时隐藏显示的工具框",
   "main": "main/dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
