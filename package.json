@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-secharts",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "设置数据时隐藏显示的工具框",
   "main": "main/dist/index.js",
   "scripts": {
