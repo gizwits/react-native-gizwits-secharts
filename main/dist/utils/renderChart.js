@@ -1,8 +1,8 @@
-import {toString} from './utils';
+import { toString } from "./utils";
 
 const renderChart = (props) => {
   const height = `${props.height || 400}px`;
-  const width = props.width ? `${props.width}px` : 'auto';
+  const width = props.width ? `${props.width}px` : "auto";
   const backgroundColor = props.backgroundColor;
   return `
       document.getElementById('main').style.height = "${height}";
@@ -23,8 +23,20 @@ const renderChart = (props) => {
         });
         window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_PRESS","payload": paramsString}));
       });
-    `
-}
-
+      myChart.on('highlight', function(params) {
+        var seen = [];
+        var paramsString = JSON.stringify(params, function(key, val) {
+          if (val != null && typeof val == "object") {
+            if (seen.indexOf(val) >= 0) {
+              return;
+            }
+            seen.push(val);
+          }
+          return val;
+        });
+        window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_HIGHTLIGHT","payload": paramsString}));
+      });
+    `;
+};
 
 export default renderChart;
