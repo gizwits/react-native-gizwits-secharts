@@ -32,6 +32,7 @@ class Echarts extends Component {
   static defaultProps = {
     backgroundColor: "#00000000",
     onPress: () => {},
+    onHeightLight: () => {},
   };
 
   render() {
@@ -73,7 +74,8 @@ class Echarts extends Component {
     const data = JSON.parse(event.nativeEvent.data);
     switch (data.types) {
       case "ON_HIGHTLIGHT":
-        this.props.onHeightLight(JSON.parse(data.payload));
+        this.props.onHeightLight &&
+          this.props.onHeightLight(JSON.parse(data.payload));
         break;
       case "ON_PRESS":
         this.props.onPress(JSON.parse(data.payload));
