@@ -52,7 +52,7 @@ class Echarts extends Component {
                 <View style={{ backgroundColor: this.props.backgroundColor }} />
               ))
             } // 设置空View，修复ioswebview闪白
-            style={{ backgroundColor: this.props.backgroundColor }} // 设置背景色透明，修复android闪白
+            style={{ backgroundColor: this.props.backgroundColor, opacity: 0.99 }} // 设置背景色透明，修复android闪白
             scrollEnabled={false}
             onMessage={this._handleMessage}
             javaScriptEnabled={true}
