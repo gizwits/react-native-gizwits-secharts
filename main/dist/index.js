@@ -4,7 +4,7 @@ import { WebView as RNWebView } from "react-native-webview";
 import renderChart from "./utils/renderChart";
 import { toString } from "./utils/utils";
 import { index } from "./tmp/templates";
-import echarts from "./lib/echarts.min";
+// import echarts from "./lib/echarts.min";
 import PropTypes from "prop-types";
 
 class Echarts extends Component {
@@ -142,7 +142,7 @@ class Echarts extends Component {
   }
 }
 
-export { Echarts, echarts };
+export { Echarts };
 Echarts.propTypes = {
   option: PropTypes.object,
   backgroundColor: PropTypes.string,

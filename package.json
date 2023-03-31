@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-secharts",
-  "version": "1.7.5",
+  "version": "2.0.0",
   "description": "增加高亮，兼容空方法",
   "main": "main/dist/index.js",
   "scripts": {
