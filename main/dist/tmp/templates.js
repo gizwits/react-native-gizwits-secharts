@@ -25,7 +25,7 @@ const index = () => {
         }
 
       </style>
-      <script type="text/javascript" src="https://appota-1251025085.cos.ap-guangzhou.myqcloud.com/echart/4.2.1/echarts.min.js.js"></script>
+      <script type="text/javascript" src="https://xbgroup-static.gizwits.com/echart/4.2.1/echarts.min.js"></script>
     </head>
 
     <body>
