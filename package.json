@@ -1,6 +1,6 @@
 {
   "name": "react-native-gizwits-secharts",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "增加tooltips方法",
   "main": "main/dist/index.js",
   "scripts": {

@@ -4,10 +4,11 @@ import { WebView as RNWebView } from "react-native-webview";
 import renderChart from "./utils/renderChart";
 import { toString } from "./utils/utils";
 import { index } from "./tmp/templates";
-// import echarts from "./lib/echarts.min";
+import echarts from "./lib/echarts.min";
 import PropTypes from "prop-types";
 
 class Echarts extends Component {
+  tmpData = null
   constructor(props) {
     super(props);
     this.chartRef = React.createRef();
@@ -15,7 +16,8 @@ class Echarts extends Component {
       data: {},
       isFirstLoad: true,
       setOption: this.setOption,
-      showTip: this.showTip
+      showTip: this.showTip,
+      hideTip: this.hideTip
     };
   }
 
@@ -79,14 +81,14 @@ class Echarts extends Component {
         this.props.onHeightLight &&
           this.props.onHeightLight(JSON.parse(data.payload));
         break;
-        case "ON_TOOLTIP":
-          this.props.onTooltipPress &&
+      case "ON_TOOLTIP":
+        this.props.onTooltipPress &&
           this.props.onTooltipPress(JSON.parse(data.payload));
-          break;
-        case "ON_MODE_EDIT":
-          this.props.onModeEdit &&
+        break;
+      case "ON_MODE_EDIT":
+        this.props.onModeEdit &&
           this.props.onModeEdit(JSON.parse(data.payload));
-          break;
+        break;
       case "ON_PRESS":
         this.props.onPress(JSON.parse(data.payload));
         break;
@@ -101,13 +103,23 @@ class Echarts extends Component {
     }
   };
 
-    showTip = ({seriesIndex = 0, dataIndex = 0}) => {
+  showTip = ({seriesIndex = 0, dataIndex = 0}) => {
+    const run = `
+    var myChart = echarts.init(document.getElementById('main'));
+    myChart.dispatchAction({ type: 'showTip', seriesIndex: ${seriesIndex}, dataIndex: ${dataIndex}});
+    `;
+    this.chartRef.current.injectJavaScript(run);
+  }
+  hideTip = () => {
+    if (this.tmpData) {
       const run = `
       var myChart = echarts.init(document.getElementById('main'));
-      myChart.dispatchAction({ type: 'showTip', seriesIndex: ${seriesIndex}, dataIndex: ${dataIndex}});
+      myChart.clear();
       `;
       this.chartRef.current.injectJavaScript(run);
+      this.setOption(this.tmpData.option, this.tmpData.notMerge || false, this.tmpData.lazyUpdate || false, )
     }
+  }
 
   setOption = (option, notMerge = false, lazyUpdate = false) => {
     let data = {
@@ -115,13 +127,14 @@ class Echarts extends Component {
       notMerge: notMerge,
       lazyUpdate: lazyUpdate,
     };
+    this.tmpData = data;
     const run = `
     // alert('optionsChange')
     var myChart = echarts.init(document.getElementById('main'));
     myChart.setOption(${toString(
       data.option
     )},${data.notMerge.toString()},${data.lazyUpdate.toString()});
-    myChart.dispatchAction({ type: 'hideTip'});
+      myChart.dispatchAction({ type: 'hideTip'});
     `;
     this.chartRef.current.injectJavaScript(run);
   };
@@ -160,7 +173,7 @@ class Echarts extends Component {
   }
 }
 
-export { Echarts };
+export { Echarts, echarts };
 Echarts.propTypes = {
   option: PropTypes.object,
   backgroundColor: PropTypes.string,

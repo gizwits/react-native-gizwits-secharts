@@ -10,6 +10,8 @@ const renderChart = (props) => {
       document.getElementById('main').style.backgroundColor = "${backgroundColor}";
       var myChart = echarts.init(document.getElementById('main'));
 
+      let timer = null;
+
       myChart.setOption(${toString(props.option)});
       myChart.on('click', function(params) {
         var seen = [];
@@ -25,6 +27,7 @@ const renderChart = (props) => {
         window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_PRESS","payload": paramsString}));
       });
       myChart.on('highlight', function(params) {
+        timer && clearTimeout(timer)
         var seen = [];
         var paramsString = JSON.stringify(params, function(key, val) {
           if (val != null && typeof val == "object") {
@@ -36,6 +39,14 @@ const renderChart = (props) => {
           return val;
         });
         window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_HIGHTLIGHT","payload": paramsString}));
+      });
+      myChart.on('downplay', function(params) {
+        timer = setTimeout(() => {
+          myChart.dispatchAction({
+            type: 'hideTip'
+          })
+        }, 500)
+
       });
       function onTooltipEdit(index) {
         window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_TOOLTIP","payload": JSON.stringify({index})}));
