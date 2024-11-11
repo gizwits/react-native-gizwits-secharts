@@ -9,6 +9,7 @@ const renderChart = (props) => {
       document.getElementById('main').style.width = "${width}";
       document.getElementById('main').style.backgroundColor = "${backgroundColor}";
       var myChart = echarts.init(document.getElementById('main'));
+
       myChart.setOption(${toString(props.option)});
       myChart.on('click', function(params) {
         var seen = [];
@@ -36,6 +37,14 @@ const renderChart = (props) => {
         });
         window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_HIGHTLIGHT","payload": paramsString}));
       });
+      function onTooltipEdit(index) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_TOOLTIP","payload": JSON.stringify({index})}));
+      }
+      function onModeEdit(index) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({"types":"ON_MODE_EDIT","payload": JSON.stringify({index})}));
+      }
+      window.onTooltipEdit = onTooltipEdit;
+      window.onModeEdit = onModeEdit;
     `;
 };
 

@@ -15,6 +15,7 @@ class Echarts extends Component {
       data: {},
       isFirstLoad: true,
       setOption: this.setOption,
+      showTip: this.showTip
     };
   }
 
@@ -33,6 +34,7 @@ class Echarts extends Component {
     backgroundColor: "#00000000",
     onPress: () => {},
     onHeightLight: () => {},
+    onTooltipPress: () => {},
   };
 
   render() {
@@ -77,6 +79,14 @@ class Echarts extends Component {
         this.props.onHeightLight &&
           this.props.onHeightLight(JSON.parse(data.payload));
         break;
+        case "ON_TOOLTIP":
+          this.props.onTooltipPress &&
+          this.props.onTooltipPress(JSON.parse(data.payload));
+          break;
+        case "ON_MODE_EDIT":
+          this.props.onModeEdit &&
+          this.props.onModeEdit(JSON.parse(data.payload));
+          break;
       case "ON_PRESS":
         this.props.onPress(JSON.parse(data.payload));
         break;
@@ -90,6 +100,14 @@ class Echarts extends Component {
         break;
     }
   };
+
+    showTip = ({seriesIndex = 0, dataIndex = 0}) => {
+      const run = `
+      var myChart = echarts.init(document.getElementById('main'));
+      myChart.dispatchAction({ type: 'showTip', seriesIndex: ${seriesIndex}, dataIndex: ${dataIndex}});
+      `;
+      this.chartRef.current.injectJavaScript(run);
+    }
 
   setOption = (option, notMerge = false, lazyUpdate = false) => {
     let data = {
